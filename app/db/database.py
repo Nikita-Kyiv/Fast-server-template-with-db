@@ -14,10 +14,15 @@ class db:
     session_maker: Optional[async_sessionmaker] = None
 
     @classmethod
-    def create_as_engine(cls):
-        cls.engine = create_async_engine(
-            settings.db_dsn, echo=settings.debug, future=True
-        )
+    def create_as_engine(cls, test=False):
+        if test:
+            cls.engine = create_async_engine(
+                settings.test_db_dsn, echo=settings.debug, future=True
+            )
+        else:
+            cls.engine = create_async_engine(
+                settings.db_dsn, echo=settings.debug, future=True
+            )
         return cls.engine
 
     @classmethod

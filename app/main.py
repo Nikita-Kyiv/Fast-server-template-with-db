@@ -13,7 +13,7 @@ class App:
     def include_routers(self, app: FastAPI):
         app.include_router(example_router, prefix="/example", tags=["example"])
 
-    def create_app(self) -> FastAPI:
+    def create_app(self, test=False) -> FastAPI:
         settings = Settings()
         app = FastAPI(
             title=settings.service_name,
@@ -31,7 +31,7 @@ class App:
             allow_headers=["*"],
         )
 
-        db.create_as_engine()
+        db.create_as_engine(test)
         db.create_as_session_maker()
 
         @app.on_event("shutdown")

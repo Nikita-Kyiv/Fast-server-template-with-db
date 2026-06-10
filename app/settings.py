@@ -7,6 +7,7 @@ class Settings(pydantic_settings.BaseSettings):
     debug: bool = False
 
     db_dsn: str = "sqlite+aiosqlite:///app/db/service.db"
+    test_db_dsn: str = "sqlite+aiosqlite:///app/db/service.db"
 
 
 settings = Settings()

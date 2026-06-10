@@ -8,7 +8,7 @@ from app.db.schemas import models
 
 @pytest_asyncio.fixture(scope="session")
 async def app():
-    app = create_app()
+    app = create_app(test=True)
     async with db.engine.begin() as conn:
         await conn.run_sync(models.metadata.create_all)
     yield app
