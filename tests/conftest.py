@@ -1,14 +1,15 @@
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 
-from app.main import create_app
+from app.main import App
 from app.db.database import db
 from app.db.schemas import models
 
 
 @pytest_asyncio.fixture(scope="session")
 async def app():
-    app = create_app(test=True)
+    application = App()
+    app = application.create_app(test=True)
     async with db.engine.begin() as conn:
         await conn.run_sync(models.metadata.create_all)
     yield app
