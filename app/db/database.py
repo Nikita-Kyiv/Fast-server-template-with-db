@@ -14,28 +14,25 @@ class db:
     session_maker: Optional[async_sessionmaker] = None
 
     @classmethod
-    def create_as_engine(cls, test=False):
+    def create_as_engine(cls, test=False) -> AsyncEngine:
         if test:
-            cls.engine = create_async_engine(
-                settings.test_db_dsn, echo=settings.debug, future=True
-            )
+            cls.engine = create_async_engine(settings.test_db_dsn, echo=settings.debug, future=True)
         else:
-            cls.engine = create_async_engine(
-                settings.db_dsn, echo=settings.debug, future=True
-            )
+            cls.engine = create_async_engine(settings.db_dsn, echo=settings.debug, future=True)
+
         return cls.engine
 
     @classmethod
     async def close_as_engine(cls):
-        await cls.engine.dispose()
+        if cls.engine:
+            await cls.engine.dispose()
 
     @classmethod
     def create_as_session_maker(cls):
-        cls.session_maker = async_sessionmaker(
-            cls.engine, expire_on_commit=False, class_=AsyncSession
-        )
+        cls.session_maker = async_sessionmaker(cls.engine, expire_on_commit=False, class_=AsyncSession)
         return cls.session_maker
 
-    # @classmethod
-    # async def close_as_session_maker(cls):
-    #     await cls.session_maker.close_all()
+    @classmethod
+    async def get_session(cls):
+        async with cls.session_maker() as session:
+            yield session
