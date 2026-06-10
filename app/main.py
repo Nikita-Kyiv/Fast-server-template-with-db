@@ -42,4 +42,4 @@ class App:
         return app
 
 
-    app = create_app()
+app = create_app()
