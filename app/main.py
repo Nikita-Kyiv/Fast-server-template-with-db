@@ -41,5 +41,6 @@ class App:
         self.include_routers(app)
         return app
 
-
-app = create_app()
+if __name__ == "__main__":
+    Application = App()
+    app = Application.create_app()
