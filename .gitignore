@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+app/__pycache__/
+app/db/__pycache__/
+# app\db\utils\__pycache__
+app/routes/__pycache__/
+
+app/db/service.sqbpro
+app/db/service.db-journal
+
+.idea/
+.ruff_cache/
+.pytest_cache/
+pyproject.toml
+settings.json
